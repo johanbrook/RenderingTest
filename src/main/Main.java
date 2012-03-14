@@ -11,6 +11,7 @@ public class Main {
 			new ViewController(new RendererV1());
 		} else if (args[0].equals("m2")) {
 			System.out.println("Method 2");
+			new ViewController(new RendererV2(1000,700));
 		} if (args[0].equals("m3")) {
 			System.out.println("Method 3");
 		}

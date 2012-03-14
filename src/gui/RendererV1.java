@@ -79,14 +79,14 @@ public class RendererV1 implements Renderer{
 			g.drawImage(this.i, x,y,width,height,null);
 		}
 	}
-public static class Colors{
-		
+	
+	public static class Colors {
+
 		private static BufferedImage bi;
 		private static BufferedImage[] images;
 		private static Random r;
-		
-		public static BufferedImage getRandomImage()
-		{
+
+		public static BufferedImage getRandomImage() {
 			bi = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
 			Graphics g = bi.getGraphics();
 
@@ -95,29 +95,29 @@ public static class Colors{
 			g.fillRect(0, 0, 10, 10);
 			return bi;
 		}
-		
-		public static BufferedImage getImages()
-		{
+
+		public static BufferedImage getImages() {
 			int numberOfImages = 10;
-			
+
 			if (images == null) {
-				
+
 				r = new Random();
 				images = new BufferedImage[numberOfImages];
-				
+
 				for (int i = 0; i < numberOfImages; i++) {
-					
-					bi = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+
+					bi = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 					Graphics g = bi.getGraphics();
 
 					Random r = new Random();
-					g.setColor(new Color(r.nextInt(200), r.nextInt(200), r.nextInt(200)));
+					g.setColor(new Color(r.nextInt(200), r.nextInt(200), r
+							.nextInt(200)));
 					g.fillRect(0, 0, 10, 10);
-					
+
 					images[i] = bi;
 				}
 			}
-			
+
 			return images[r.nextInt(numberOfImages)];
 		}
 	}

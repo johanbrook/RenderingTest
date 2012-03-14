@@ -25,10 +25,14 @@ public class ViewController implements Runnable{
 
 	private void gameLoop(double dt)
 	{
-		this.renderer.render(this.screen.getBackgroundBuffer());
-		this.screen.getBackgroundBuffer().setColor(Color.RED);
-		this.screen.getBackgroundBuffer().drawString("FPS: "+this.currentFPS, 0, 15);
-		this.screen.render();
+//		this.renderer.render(this.screen.getBackgroundBuffer());
+//		this.screen.getBackgroundBuffer().setColor(Color.RED);
+//		this.screen.getBackgroundBuffer().drawString("FPS: "+this.currentFPS, 0, 15);
+//		this.screen.render();
+		
+		this.renderer.render(this.screen.getContentPane().getGraphics());
+		this.screen.getContentPane().getGraphics().setColor(Color.RED);
+		this.screen.getContentPane().getGraphics().drawString("FPS: "+this.currentFPS, 0, 15);
 	}
 	
 	
