@@ -32,7 +32,7 @@ public class ViewController implements Runnable{
 		this.screen = new Screen(width, height);
 		
 		// Initialize FPS meter
-		this.fpsMeter = new FPSMeter();
+		this.fpsMeter = new FPSMeter(this.screen.getContentPane().getGraphics());
 		
 		Thread t = new Thread(this);
 		t.start();
@@ -42,13 +42,9 @@ public class ViewController implements Runnable{
 	private void gameLoop()
 	{
 //		this.renderer.render(this.screen.getBackgroundBuffer());
-//		this.screen.getBackgroundBuffer().setColor(Color.RED);
-//		this.screen.getBackgroundBuffer().drawString("FPS: "+this.currentFPS, 0, 15);
 //		this.screen.render();
 		
 		this.renderer.render(this.screen.getContentPane().getGraphics());
-		this.screen.getContentPane().getGraphics().setColor(Color.RED);
-		this.screen.getContentPane().getGraphics().drawString("FPS: "+this.currentFPS, 0, 15);
 	}
 	
 	
@@ -64,8 +60,9 @@ public class ViewController implements Runnable{
 			try {
 				Thread.sleep(1000/FPS);
 				
-				this.currentFPS = fpsMeter.getCurrentFPS(timeLastFrame, true);
 				this.gameLoop();
+				this.currentFPS = fpsMeter.getCurrentFPS(timeLastFrame);
+				fpsMeter.showCurrentFPS();
 				timeLastFrame = fpsMeter.getTime();
 				
 			} catch (InterruptedException e) {
