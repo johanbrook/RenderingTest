@@ -1,5 +1,7 @@
 package core;
 
+import java.awt.Color;
+
 import gui.*;
 
 public class ViewController implements Runnable{
@@ -8,12 +10,9 @@ public class ViewController implements Runnable{
 	
 	private Renderer renderer;
 	private Screen screen;
-	private FPSMeter fpsMeter;
 	
-	private long start;
 	
 	public ViewController(String[] args, int width, int height) {
-
 		if (args[0].equals("m1")) {
 			System.out.println("Method 1");
 			this.renderer = new RendererV1(width, height);
@@ -26,56 +25,66 @@ public class ViewController implements Runnable{
 			System.out.println("Method 3");
 		}
 		
-		this.screen = new Screen(this, width, height);
-		
-		// Initialize FPS meter
-		this.fpsMeter = new FPSMeter(this.screen.getContentPane().getGraphics());
+		this.screen = new Screen(width, height);
 		
 		Thread t = new Thread(this);
 		t.start();
 		
-		this.start = System.currentTimeMillis();
-		
 	}
 
-	private void gameLoop()
+	private void gameLoop(double dt)
 	{
 //		this.renderer.render(this.screen.getBackgroundBuffer());
+//		this.screen.getBackgroundBuffer().setColor(Color.RED);
+//		this.screen.getBackgroundBuffer().drawString("FPS: "+this.currentFPS, 0, 15);
 //		this.screen.render();
 		
 		this.renderer.render(this.screen.getContentPane().getGraphics());
+		this.screen.getContentPane().getGraphics().setColor(Color.RED);
+		this.screen.getContentPane().getGraphics().drawString("FPS: "+this.currentFPS, 0, 15);
 	}
 	
 	
-	public void onShutdown(java.awt.event.WindowEvent evt){
-		long end = System.currentTimeMillis();
-		double totalTime = (end - start)/1000.0;
-		
-		System.out.println("**** " +fpsMeter.getAverageFPS() + " FPS on average during " + totalTime +" s ****");
-		System.out.println("Exiting ...");
-	}
+	
+	
+	
+	// FPS-meter
+	double timeLastFrame;
+	
+	double timeThisSecond;
+	int framesThisSecond;
+	int currentFPS;
 	
 	
 	// Run method
 	
 	@Override
 	public void run() {
-		double timeLastFrame = System.nanoTime();
-		
+		this.timeLastFrame = System.nanoTime();
 		while(!Thread.interrupted()) {
 			try {
 				Thread.sleep(1000/FPS);
 				
-				this.gameLoop();
-				fpsMeter.tick(timeLastFrame);
-				fpsMeter.showCurrentFPS();
-				timeLastFrame = fpsMeter.getTime();
+				double thisTime = System.nanoTime();
+				double dt = thisTime - this.timeLastFrame;
+				this.timeLastFrame = thisTime;
+				
+				if (this.timeThisSecond > 1000000000.0) {
+					this.currentFPS = this.framesThisSecond;
+					this.framesThisSecond = 0;
+					this.timeThisSecond = 0;
+					System.out.println("FPS: "+this.currentFPS);
+				} else {
+					this.timeThisSecond += dt;
+					this.framesThisSecond++;
+				}
+				
+				this.gameLoop(dt);
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 }
