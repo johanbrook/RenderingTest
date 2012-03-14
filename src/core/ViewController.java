@@ -1,7 +1,5 @@
 package core;
 
-import java.awt.Color;
-
 import gui.*;
 
 public class ViewController implements Runnable{
@@ -12,6 +10,7 @@ public class ViewController implements Runnable{
 	private Screen screen;
 	private FPSMeter fpsMeter;
 	
+	private long start;
 	
 	public ViewController(String[] args, int width, int height) {
 
@@ -27,13 +26,15 @@ public class ViewController implements Runnable{
 			System.out.println("Method 3");
 		}
 		
-		this.screen = new Screen(width, height);
+		this.screen = new Screen(this, width, height);
 		
 		// Initialize FPS meter
 		this.fpsMeter = new FPSMeter(this.screen.getContentPane().getGraphics());
 		
 		Thread t = new Thread(this);
 		t.start();
+		
+		this.start = System.currentTimeMillis();
 		
 	}
 
@@ -46,13 +47,20 @@ public class ViewController implements Runnable{
 	}
 	
 	
+	public void onShutdown(java.awt.event.WindowEvent evt){
+		long end = System.currentTimeMillis();
+		double totalTime = (end - start)/1000.0;
+		
+		System.out.println("**** " +fpsMeter.getAverageFPS() + " FPS on average during " + totalTime +" s ****");
+		System.out.println("Exiting ...");
+	}
+	
 	
 	// Run method
 	
 	@Override
 	public void run() {
 		double timeLastFrame = System.nanoTime();
-		int fps;
 		
 		while(!Thread.interrupted()) {
 			try {
@@ -67,6 +75,7 @@ public class ViewController implements Runnable{
 				e.printStackTrace();
 			}
 		}
+		
 	}
 	
 }
