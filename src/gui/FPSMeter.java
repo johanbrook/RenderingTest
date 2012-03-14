@@ -38,16 +38,13 @@ public class FPSMeter {
 			if(tick){
 				System.out.println(this.label + ": " +this.currentFPS);
 			}
-				
-			
-			return this.currentFPS;
 			
 		} else {
 			this.timeThisSecond += dt;
 			this.framesThisSecond++;
 		}
 		
-		return 0;
+		return this.currentFPS;
 	}
 	
 	public double getTime(){
