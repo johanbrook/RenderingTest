@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class RendererV1 implements Renderer{
 	
-	private DrawableObject2[] drawables;
+	private DrawableObject[] drawables;
 	
 	public RendererV1()
 	{
@@ -17,10 +17,10 @@ public class RendererV1 implements Renderer{
 		int tileWidth = 1000/width;
 		int tileHeight = 700/height;
 		
-		this.drawables = new DrawableObject2[width*height];
+		this.drawables = new DrawableObject[width*height];
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				drawables[i*height+j] = new DrawableObject2(i*tileWidth, j*tileHeight, tileWidth, tileHeight);
+				drawables[i*height+j] = new DrawableObject1(i*tileWidth, j*tileHeight, tileWidth, tileHeight);
 			}
 		}
 	}
@@ -28,58 +28,14 @@ public class RendererV1 implements Renderer{
 	@Override
 	public void render(Graphics g) {
 		
-		for (DrawableObject2 dO : this.drawables) {
+		for (DrawableObject dO : this.drawables) {
 			dO.draw(g);
 		}
 	}
 	
-	public class DrawableObject1 {
-		
-		private BufferedImage i;
-		
-		public int x;
-		public int y;
-		public int width;
-		public int height;
-		
-		public DrawableObject1(int x, int y, int width, int height)
-		{
-			this.x = x;
-			this.y = y;
-			this.width = width;
-			this.height = height;
-			
-			this.i = Colors.getRandomImage();
-		}
-		
-		public void draw(Graphics g) {
-			g.drawImage(this.i, x,y,width,height,null);
-		}
-	}
-	public class DrawableObject2 {
-		
-		private BufferedImage i;
-		
-		public int x;
-		public int y;
-		public int width;
-		public int height;
-		
-		public DrawableObject2(int x, int y, int width, int height)
-		{
-			this.x = x;
-			this.y = y;
-			this.width = width;
-			this.height = height;
-			
-			this.i = Colors.getImages();
-		}
-		
-		public void draw(Graphics g) {
-			g.drawImage(this.i, x,y,width,height,null);
-		}
-	}
-public static class Colors{
+	
+	
+	public static class Colors{
 		
 		private static BufferedImage bi;
 		private static BufferedImage[] images;
