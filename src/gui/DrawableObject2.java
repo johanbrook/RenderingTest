@@ -5,7 +5,7 @@ import gui.RendererV1.Colors;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class DrawableObject2 {
+public class DrawableObject2 implements DrawableObject {
 		
 		private BufferedImage i;
 		

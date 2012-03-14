@@ -2,9 +2,7 @@ package core;
 
 import java.awt.Color;
 
-import gui.Renderer;
-import gui.RendererV1;
-import gui.Screen;
+import gui.*;
 
 public class ViewController implements Runnable{
 	
@@ -14,18 +12,20 @@ public class ViewController implements Runnable{
 	private Screen screen;
 	
 	
-	public ViewController(String[] args)
-	{
+	public ViewController(String[] args, int width, int height) {
 		if (args[0].equals("m1")) {
 			System.out.println("Method 1");
-			this.renderer = new RendererV1();
+			this.renderer = new RendererV1(width, height);
+			
 		} else if (args[0].equals("m2")) {
 			System.out.println("Method 2");
+			this.renderer = new RendererV2(width, height);
+			
 		} if (args[0].equals("m3")) {
 			System.out.println("Method 3");
 		}
 		
-		this.screen = new Screen(1000,700);
+		this.screen = new Screen(width, height);
 		
 		Thread t = new Thread(this);
 		t.start();

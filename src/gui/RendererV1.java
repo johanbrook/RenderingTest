@@ -9,18 +9,19 @@ public class RendererV1 implements Renderer{
 	
 	private DrawableObject[] drawables;
 	
-	public RendererV1()
+	public RendererV1(int width, int height)
 	{
 		
-		int width = 100;
-		int height = 70;
-		int tileWidth = 1000/width;
-		int tileHeight = 700/height;
+		int numWidth = 100;
+		int numHeight = 70;
 		
-		this.drawables = new DrawableObject[width*height];
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				drawables[i*height+j] = new DrawableObject1(i*tileWidth, j*tileHeight, tileWidth, tileHeight);
+		int tileWidth = width/numWidth;
+		int tileHeight = height/numHeight;
+		
+		this.drawables = new DrawableObject[numWidth*numHeight];
+		for (int i = 0; i < numWidth; i++) {
+			for (int j = 0; j < numHeight; j++) {
+				drawables[i*numHeight+j] = new DrawableObject2(i*tileWidth, j*tileHeight, tileWidth, tileHeight);
 			}
 		}
 	}
