@@ -28,8 +28,7 @@ public class FPSMeter {
 		this("FPS", g);
 	}
 
-	
-	public int getCurrentFPS(double timeLastFrame){
+	public void tick(double timeLastFrame){
 		this.thisTime = System.nanoTime();
 		double dt = this.thisTime - timeLastFrame;
 		timeLastFrame = this.thisTime;
@@ -43,7 +42,9 @@ public class FPSMeter {
 			this.timeThisSecond += dt;
 			this.framesThisSecond++;
 		}
-		
+	}
+	
+	public int getCurrentFPS(){
 		return this.currentFPS;
 	}
 	

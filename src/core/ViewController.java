@@ -11,12 +11,10 @@ public class ViewController implements Runnable{
 	private Renderer renderer;
 	private Screen screen;
 	private FPSMeter fpsMeter;
-	private int currentFPS;
 	
 	
 	public ViewController(String[] args, int width, int height) {
 
-		
 		if (args[0].equals("m1")) {
 			System.out.println("Method 1");
 			this.renderer = new RendererV1(width, height);
@@ -61,7 +59,7 @@ public class ViewController implements Runnable{
 				Thread.sleep(1000/FPS);
 				
 				this.gameLoop();
-				this.currentFPS = fpsMeter.getCurrentFPS(timeLastFrame);
+				fpsMeter.tick(timeLastFrame);
 				fpsMeter.showCurrentFPS();
 				timeLastFrame = fpsMeter.getTime();
 				
