@@ -62,18 +62,18 @@ public class RendererV1 implements Renderer{
 				images = new BufferedImage[numberOfImages];
 				
 				for (int i = 0; i < numberOfImages; i++) {
-					
-					bi = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+
+					bi = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 					Graphics g = bi.getGraphics();
 
 					Random r = new Random();
 					g.setColor(new Color(r.nextInt(200), r.nextInt(200), r.nextInt(200)));
 					g.fillRect(0, 0, 10, 10);
-					
+
 					images[i] = bi;
 				}
 			}
-			
+
 			return images[r.nextInt(numberOfImages)];
 		}
 	}
