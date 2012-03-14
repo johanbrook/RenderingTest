@@ -10,9 +10,12 @@ public class ViewController implements Runnable{
 	
 	private Renderer renderer;
 	private Screen screen;
+	private FPSMeter fpsMeter;
 	
 	
 	public ViewController(String[] args, int width, int height) {
+
+		
 		if (args[0].equals("m1")) {
 			System.out.println("Method 1");
 			this.renderer = new RendererV1(width, height);
@@ -27,12 +30,15 @@ public class ViewController implements Runnable{
 		
 		this.screen = new Screen(width, height);
 		
+		// Initialize FPS meter
+		this.fpsMeter = new FPSMeter();
+		
 		Thread t = new Thread(this);
 		t.start();
 		
 	}
 
-	private void gameLoop(double dt)
+	private void gameLoop(int fps)
 	{
 //		this.renderer.render(this.screen.getBackgroundBuffer());
 //		this.screen.getBackgroundBuffer().setColor(Color.RED);
@@ -41,45 +47,25 @@ public class ViewController implements Runnable{
 		
 		this.renderer.render(this.screen.getContentPane().getGraphics());
 		this.screen.getContentPane().getGraphics().setColor(Color.RED);
-		this.screen.getContentPane().getGraphics().drawString("FPS: "+this.currentFPS, 0, 15);
+		this.screen.getContentPane().getGraphics().drawString("FPS: "+fps, 0, 15);
 	}
 	
-	
-	
-	
-	
-	// FPS-meter
-	double timeLastFrame;
-	
-	double timeThisSecond;
-	int framesThisSecond;
-	int currentFPS;
 	
 	
 	// Run method
 	
 	@Override
 	public void run() {
-		this.timeLastFrame = System.nanoTime();
+		double timeLastFrame = System.nanoTime();
+		int fps;
+		
 		while(!Thread.interrupted()) {
 			try {
 				Thread.sleep(1000/FPS);
 				
-				double thisTime = System.nanoTime();
-				double dt = thisTime - this.timeLastFrame;
-				this.timeLastFrame = thisTime;
-				
-				if (this.timeThisSecond > 1000000000.0) {
-					this.currentFPS = this.framesThisSecond;
-					this.framesThisSecond = 0;
-					this.timeThisSecond = 0;
-					System.out.println("FPS: "+this.currentFPS);
-				} else {
-					this.timeThisSecond += dt;
-					this.framesThisSecond++;
-				}
-				
-				this.gameLoop(dt);
+				fps = fpsMeter.getCurrentFPS(timeLastFrame, true);
+				this.gameLoop(fps);
+				timeLastFrame = fpsMeter.getTime();
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
